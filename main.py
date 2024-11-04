@@ -1,19 +1,54 @@
-import tkinter as tk
-from tkinter import ttk, font, messagebox
-from tkinter import PhotoImage
+import flet as ft
 
+class ToDo:
+    def __init__(self, page: ft.Page):
+        self.page = page
+        self.page.bgcolor = ft.colors.WHITE
+        self.page.window_width = 350
+        self.page.window_heigth = 450
+        self.page.window_resizable = True
+        self.page.window_always_on_top = True
+        self.page.title = 'ToDo '
+        self.main_page()
 
-# criando janela
-janela = tk.Tk()
-janela.title("Tarefas")
-janela.configure(bg="#F0F0F0")
-janela.geometry("500x600")
+    #Container das tarefas 
+    def task_container(self):
+        return ft.Container(
+            height=self.page.height * 0.8,
+            content = ft.Column(
+                controls = [
+                    ft.Checkbox(label='Tarefa1', value = True)
+                ]
+            )
 
-# cabeçalho
-font_cabecalho = font.Font(family="Garamond", size=24, weight="bold")
-font_cabecalho = tk.Label(
-    janela, text="Tarefas", font=font_cabecalho, bg="#F0F0F0", fg="#333"
-).pack(pady=20)
+        )
 
+    def main_page(self):
 
-janela.mainloop()
+        # Adicionar tarefas -------
+        input_task = ft.TextField(hint_text = 'Digite sua tarefa aqui', expand=True ) #Local de escrever
+
+        input_bar = ft.Row( #Botão de adcionar
+            controls=[
+                input_task,
+                ft.FloatingActionButton(icon=ft.icons.ADD)
+            ]
+        )
+        
+        #Abas de status de tarefas
+        tabs = ft.Tabs(
+            selected_index=0,
+            tabs=[
+            ft.Tab(text='Todos'),
+            ft.Tab(text='Em andamento'),
+            ft.Tab(text='Finalizados'),
+            ]
+
+        )
+
+        #Tarefas
+        tasks = self.task_container()
+
+        self.page.add(input_bar, tabs, tasks)
+
+ft.app(target = ToDo)
