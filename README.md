@@ -1,2 +1,2 @@
 # Tarefas
-Aplicativo de tarefas
+Aplicativo de tarefas simplista.
